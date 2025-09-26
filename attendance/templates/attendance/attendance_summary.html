@@ -1,0 +1,22 @@
+<h2>Attendance Summary</h2>
+<form method="get">
+    <label for="days">Show past number of days:</label>
+    <input type="number" name="days" min="1">
+    <button type="submit">Generate Report</button>
+</form>
+
+{% if summary %}
+    <h3>Report</h3>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Total Time</th>
+        </tr>
+        {% for row in summary %}
+        <tr>
+            <td>{{ row.user__username }}</td>
+            <td>{{ row.total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}

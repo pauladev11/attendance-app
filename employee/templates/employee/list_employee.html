@@ -1,0 +1,49 @@
+{% extends "employee/core_template.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Employee List</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                 
+                        <table style='border: 1px solid;width:100%'>
+                            <thead ><tr>
+                            <th style='border: 1px solid;'>#</th>
+                            <th style='border: 1px solid;'>Name </th>
+                            </tr> </thead>
+                  {% for e in employees %}
+                    <tr style='border: 1px solid; '>
+                        <td style='border: 1px solid;padding:3px;'>{{ forloop.counter }}</td>
+                         <td style='border: 1px solid;'><a href="{% url 'employee:edit_employee' pk=e.pk %}"> {{e}} </a> </td>
+                    </tr>
+
+                {% empty %}
+                    <li>No records yet.</li>
+                {% endfor %}
+                </table>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

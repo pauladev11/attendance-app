@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance</title>
+</head>
+<body>
+    {% if request.user.is_superuser %}
+    <nav>
+        <a href="{% url 'attendance:create_employee' %}">Create Employee</a> |
+        <a href="{% url 'attendance:attendance_summary' %}">Attendance Summary</a>
+    </nav>
+{% endif %}
+    <h1>Welcome, {{ request.user.username }}</h1>
+
+    <form action="{% url 'attendance:time_in' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Time In</button>
+    </form>
+
+    <form action="{% url 'attendance:time_out' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Time Out</button>
+    </form>
+
+    <h2>Your Attendance Records</h2>
+    <ul>
+        {% for record in records %}
+            <li>
+                Time In: {{ record.time_in|date:"Y-m-d H:i:s" }} |
+                Time Out: {{ record.time_out|date:"Y-m-d H:i:s" }}
+            </li>
+        {% empty %}
+            <li>No records yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends "employee/core_template.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                    <h1 class="h3 mb-0 text-gray-800">Welcome back, {{ user.username }}</h1>
+                    </div>  
+                    <!-- Content Row -->
+                     <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                            Today is {{ today|date:"M d, Y" }}. Click a button to register your attendance.
+                    </div>
+                       
+      
+            <div class="row">
+                       
+             <div class="col-md-3">                 
+                <form action="{% url 'attendance:time_in' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success w-100">Time In</button>
+                </form>
+            </div>
+
+            <div class="col-md-3 mb-3">                  
+                <form action="{% url 'attendance:time_out' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">Time Out</button>
+                </form>
+            </div>
+   
+            </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Attendance History</h6>
+                                    
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+
+                                        <table style='border: 1px solid;width:100%'>
+                                            <thead ><tr>
+                                            <th style='border: 1px solid;'>Time In</th>
+                                            <th style='border: 1px solid;'> Time Out </th>
+                                            </tr> </thead>
+                                {% for record in records %}
+                                    <tr style='border: 1px solid; '>
+                                        <td style='border: 1px solid;padding:3px;'>{{ record.time_in|date:"M d, Y h:i A" }}</td>
+                                         <td style='border: 1px solid;'>{{ record.time_out|date:"M d, Y h:i A" }}</td>
+                                    </tr>
+                                    
+                                {% empty %}
+                                    <li>No records yet.</li>
+                                {% endfor %}
+                                </table>
+
+
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+{% endblock %}

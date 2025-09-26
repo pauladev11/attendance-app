@@ -1,0 +1,97 @@
+{% extends "employee/core_template.html" %}
+{% load static %}
+{% load templatetags %}
+{% block head_extra %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row"> 
+        <div class="col-xl-8 col-lg-7">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Date Range Form</h6>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <form method="post">
+                                        {% csrf_token %}
+                                         <div class="form-row  align-items-end">
+                                        <div class="form-group col-md-5">
+                                            <label for="id_start_date">Start Date</label>
+                                            {{ form.start_date }}
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label for="id_end_date">End Date</label>
+                                            {{ form.end_date }}
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                        </div>
+                                    </form>
+                                         
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Attendance Records</h6>
+
+                </div>
+                <!-- Card Body -->
+                
+                
+                     {% for k, list_values in records.items %}
+                <div class="card-body">
+                        <h4>{{ k }} </h4>
+                        <table style='border: 1px solid;width:100%'>
+                            <thead ><tr>
+                            <th style='border: 1px solid;'>Time In</th>
+                            <th style='border: 1px solid;'> Time Out </th>
+                            <th style='border: 1px solid;'> Duration </th>
+                            </tr> </thead>
+                    {% for rec in list_values %}
+                            
+                    <tr style='border: 1px solid; '>
+                        {% if rec and rec.duration %}
+                        <td style='border: 1px solid;padding:3px;'>{{ rec|get_item:"time_in"|date:"M d, Y h:i"}}</td>
+                         <td style='border: 1px solid;'>{{ rec|get_item:"time_out"|date:"M d, Y h:i" }}</td>
+                        <td style='border: 1px solid;'>{{ rec.duration}}</td>
+                        {% else %}
+                        <th style='border: 1px solid;padding:3px;'>TOTAL HOURS </th>
+                        <td style='border: 1px solid;'> </td>
+                        <th style='border: 1px solid;'>{{ rec.hours }}</th>
+                        
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                        <li>No records yet.</li>
+                    {% endfor %}
+                        </table>
+                </div>
+                {% empty %}
+                    <li>No records yet.</li>
+                {% endfor %}
+                
+
+
+                
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
