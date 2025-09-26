@@ -8,6 +8,8 @@ from datetime import timedelta
 from .decorators import admin_required, manager_required
 from datetime import date, timedelta
 
+def home(request):
+    return redirect('attendance:register_attendance')
 
 def register_attendance(request):
     user = request.user
