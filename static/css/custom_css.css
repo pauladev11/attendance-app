@@ -1,0 +1,17 @@
+.currency {
+	text-align: right;
+	font-weight: bold;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.align-right {
+	text-align: right;
+}
+.error-message {
+    color: red;
+    font-family: Times;
+    font-size: 0.8em;
+}
