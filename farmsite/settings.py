@@ -130,6 +130,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #    os.path.join(BASE_DIR, "static"),
 #]
 
+if DEBUG:
+    STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, 'static')
+   ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 AUTH_USER_MODEL = 'employee.EmployeeUser'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
