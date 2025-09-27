@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.contrib import messages
+
 from .models import Attendance
 from .forms import DateRangeForm
 from employee.models import EmployeeUser
@@ -20,8 +22,12 @@ def register_attendance(request):
 
 def time_in(request):
     employee_user = get_object_or_404(EmployeeUser, pk=request.user.id)
-    now = timezone.now()
-    Attendance.objects.create(employeeuser=employee_user, time_in=now)
+    last_record = Attendance.objects.filter(employeeuser=employee_user).latest('time_in')
+    if last_record.time_in and last_record.time_out:
+        now = timezone.now()
+        Attendance.objects.create(employeeuser=employee_user, time_in=now)
+    else:
+        messages.error(request, 'You need to time out before you can time in again.')
     return redirect('attendance:register_attendance')
 
 
