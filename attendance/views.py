@@ -8,7 +8,7 @@ from employee.models import EmployeeUser
 from django.db.models import Sum, F, ExpressionWrapper, DurationField
 from datetime import timedelta
 from .decorators import admin_required, manager_required
-from datetime import date, timedelta
+from datetime import time, datetime, date, timedelta
 
 def home(request):
     return redirect('attendance:register_attendance')
@@ -74,6 +74,10 @@ def attendance_record(request):
     if request.method == "POST" and form.is_valid():
         start = form.cleaned_data['start_date']
         end = form.cleaned_data['end_date']
+
+        end_time = time(23, 59, 59)
+        end_datetime = datetime.combine(end, end_time)
+
     else:
         num_days = 15
     recs = {}
@@ -83,7 +87,7 @@ def attendance_record(request):
     attendance_records = Attendance.objects.all()
     for employee in employees:
         if start and end: 
-            records = attendance_records.filter(employeeuser=employee, time_in__lte=end, time_in__gte=start).order_by('-pk')
+            records = attendance_records.filter(employeeuser=employee, time_in__lte=end_datetime, time_in__gte=start).order_by('-pk')
         else:
             records = attendance_records.filter(employeeuser=employee, time_in__gte=days_ago).order_by('-pk')
         data = []
